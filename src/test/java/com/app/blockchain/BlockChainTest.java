@@ -8,6 +8,6 @@ public class BlockChainTest {
     @Test
     public void whenTheAppStarts_ShouldPrintHelloWorld() {
         String msg = "hello World";
-        Assert.assertEquals("hello World",msg);
+        Assert.assertEquals("hello World",msg); 
     }
 }
