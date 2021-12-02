@@ -6,7 +6,7 @@ import org.junit.Test;
 public class BlockChainTest {
 
     @Test
-    public void whenTheAppStarts_ShouldPrintHelloWorld() {
+    public void whenTheAppStarts_ShouldPrintHelloWorldJava() {
         String msg = "hello World Java";
         Assert.assertEquals("hello World Java",msg);
     }
