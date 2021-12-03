@@ -3,11 +3,14 @@ package com.app.blockchain;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Date;
+
 public class UtilsTest {
 
     @Test
     public void whenCreateANewHash_ShouldBeAValidHash() {
-        Block block = new Block("meu dado", "hash:9901");
+        Long timeStamp = new Date().getTime();
+        Block block = new Block("meu dado", "hash:9901", timeStamp);
         Utils util = new Utils();
         String newHash = util.applySha256(block.toString());
 

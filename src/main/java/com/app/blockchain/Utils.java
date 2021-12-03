@@ -3,7 +3,7 @@ package com.app.blockchain;
 import java.security.MessageDigest;
 
 public class Utils {
-    public String applySha256(String toString) {
+    public static String applySha256(String toString) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(toString.getBytes("UTF-8"));
