@@ -6,7 +6,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Build
+          name: Clean
           command: mvn -B -DskipTests clean package
       - run:
           name: Test
