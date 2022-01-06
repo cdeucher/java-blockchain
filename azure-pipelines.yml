@@ -1,16 +1,22 @@
-# Maven
-# Build your Java project and run tests with Apache Maven.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/java
+name: cicd_ci
 
 trigger:
-- azure-pipelines
+  branches:
+    include:
+      - azure-pipelines
 
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- script: |
-    echo Starting the build
-    mvn package
-  displayName: 'Build with Maven'
+stages:
+- stage: CI_Checks
+  jobs:
+  - job:
+    displayName: JobBuild
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - script: |
+        echo Starting the build
+        mvn package
+      displayName: 'Build with Maven'
