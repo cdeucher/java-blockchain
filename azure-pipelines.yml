@@ -8,6 +8,10 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+variables:
+  MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2/repository
+  MAVEN_OPTS: '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
+
 stages:
 - stage: CI_Checks
   jobs:
@@ -16,6 +20,15 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
+    - task: Cache@2
+      inputs:
+        key: 'maven | "$(Agent.OS)" | **/pom.xml'
+        restoreKeys: |
+          maven | "$(Agent.OS)"
+          maven
+        path: $(MAVEN_CACHE_FOLDER)
+      displayName: Cache Maven local repo
+
     - script: |
         mvn test
       displayName: 'Execute tests'    
