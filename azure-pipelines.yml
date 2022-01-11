@@ -5,6 +5,8 @@ trigger:
     include:
       - azure-pipelines
       - develop
+      - feature/*
+      - bugfix/*
 
 pool:
   vmImage: ubuntu-latest
