@@ -29,6 +29,14 @@ stages:
         path: $(MAVEN_CACHE_FOLDER)
       displayName: Cache Maven local repo
 
+    - script: |
+        mvn test
+      displayName: 'Execute tests'
+
+    - script: |
+        echo "Starting the build"
+        mvn -B -DskipTests clean package
+      displayName: 'Build with Maven'
     - task: SonarCloudPrepare@1
       inputs:
         SonarCloud: 'SonarCloud'
@@ -38,16 +46,6 @@ stages:
         cliProjectKey: 'cdeucher_java-blockchain'
         cliProjectName: 'Blockchain'
         cliSources: '.'
-
-    - script: |
-        mvn test
-      displayName: 'Execute tests'
-
-    - script: |
-        echo "Starting the build"
-        mvn -B -DskipTests clean package
-      displayName: 'Build with Maven'
-
     - task: SonarCloudAnalyze@1
     - task: SonarCloudPublish@1
       inputs:
