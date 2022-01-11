@@ -1,0 +1,56 @@
+name: cicd_ci
+
+trigger:
+  branches:
+    include:
+      - azure-pipelines
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2/repository
+  MAVEN_OPTS: '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
+
+stages:
+- stage: CI_Checks
+  jobs:
+  - job:
+    displayName: JobBuild
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: Cache@2
+      inputs:
+        key: 'maven | "$(Agent.OS)" | **/pom.xml'
+        restoreKeys: |
+          maven | "$(Agent.OS)"
+          maven
+        path: $(MAVEN_CACHE_FOLDER)
+      displayName: Cache Maven local repo
+
+    - script: |
+        mvn test
+      displayName: 'Execute tests'
+
+    - script: |
+        echo "Starting the build"
+        mvn -B -DskipTests clean package
+      displayName: 'Build with Maven'
+
+    - task: SonarCloudPrepare@1
+      inputs:
+        SonarCloud: 'SonarCloud'
+        organization: 'cdeucher-blockchain'
+        scannerMode: 'CLI'
+        configMode: 'manual'
+        cliProjectKey: 'cdeucher_java-blockchain'
+        cliProjectName: 'Blockchain'
+        cliSources: '.'
+        extraProperties: 'sonar.java.binaries=/home/vsts/work/1/s/target'
+
+    - task: SonarCloudAnalyze@1
+    - task: SonarCloudPublish@1
+      inputs:
+        pollingTimeoutSec: '300'
+
