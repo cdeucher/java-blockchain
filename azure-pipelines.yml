@@ -4,6 +4,7 @@ trigger:
   branches:
     include:
       - azure-pipelines
+      - develop
 
 pool:
   vmImage: ubuntu-latest
