@@ -29,10 +29,27 @@ stages:
         path: $(MAVEN_CACHE_FOLDER)
       displayName: Cache Maven local repo
 
+    - task: SonarCloudPrepare@1
+      inputs:
+        SonarCloud: 'SonarCloud'
+        organization: 'cdeucher-blockchain'
+        scannerMode: 'CLI'
+        configMode: 'manual'
+        cliProjectKey: 'cdeucher_java-blockchain'
+        cliProjectName: 'Blockchain'
+        cliSources: '.'
+
     - script: |
         mvn test
-      displayName: 'Execute tests'    
+      displayName: 'Execute tests'
+
     - script: |
         echo "Starting the build"
         mvn -B -DskipTests clean package
       displayName: 'Build with Maven'
+
+    - task: SonarCloudAnalyze@1
+    - task: SonarCloudPublish@1
+      inputs:
+        pollingTimeoutSec: '300'
+
