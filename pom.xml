@@ -84,6 +84,11 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco.version}</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/teste/**</exclude>
+                    </excludes>
+                </configuration>
             </plugin>
         </plugins>
     </reporting>
