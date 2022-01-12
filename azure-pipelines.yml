@@ -41,9 +41,9 @@ stages:
         mvn -B -DskipTests clean package
       displayName: 'Build with Maven'
 
-  - script: |
-      mvn clean install site -P test
-    displayName: 'Generate coverage'
+    - script: |
+        mvn clean install site -P test
+      displayName: 'Generate coverage'
 
     - task: SonarCloudPrepare@1
       inputs:
