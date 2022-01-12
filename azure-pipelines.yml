@@ -54,10 +54,11 @@ stages:
         cliProjectKey: 'cdeucher_java-blockchain'
         cliProjectName: 'Blockchain'
         cliSources: '.'
-        extraProperties: 'sonar.java.binaries=/home/vsts/work/1/s/target'
+        extraProperties: |
+          sonar.exclusions=**/*Test*
+          sonar.java.binaries=/home/vsts/work/1/s/target
 
     - task: SonarCloudAnalyze@1
     - task: SonarCloudPublish@1
       inputs:
         pollingTimeoutSec: '300'
-
