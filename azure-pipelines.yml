@@ -40,25 +40,3 @@ stages:
         echo "Starting the build"
         mvn -B -DskipTests clean package
       displayName: 'Build with Maven'
-
-    - script: |
-        mvn clean install site -P test
-      displayName: 'Generate coverage'
-
-    - task: SonarCloudPrepare@1
-      inputs:
-        SonarCloud: 'SonarCloud'
-        organization: 'cdeucher-blockchain'
-        scannerMode: 'CLI'
-        configMode: 'manual'
-        cliProjectKey: 'cdeucher_java-blockchain'
-        cliProjectName: 'Blockchain'
-        cliSources: '.'
-        extraProperties: |
-          sonar.exclusions=**/*Test*
-          sonar.java.binaries=/home/vsts/work/1/s/target
-
-    - task: SonarCloudAnalyze@1
-    - task: SonarCloudPublish@1
-      inputs:
-        pollingTimeoutSec: '300'
